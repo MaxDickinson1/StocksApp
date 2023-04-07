@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import './Cryptocurrency.css';
 
 const Cryptocurrency = () => {
@@ -27,17 +28,20 @@ const Cryptocurrency = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Cryptocurrencies</h1>
-      <div className="card-container">
+    <div className="coin-list">
+      <h1 className="title">Cryptocurrencies</h1>
+      <div className="coin-grid">
         {cryptocurrencies.map((currency) => (
-          <div className="card" key={currency.id}>
-            <img src={currency.image} alt={currency.name} />
-            <div className="card-body">
-              <h2>{currency.name} ({currency.symbol.toUpperCase()})</h2>
-              <p>Price: {currency.current_price} {currency.symbol.toUpperCase()}</p>
+          <Link key={currency.id} to={`/coins/${currency.id}`} className="coin-card">
+            <div className="coin-card-image">
+              <img src={currency.image} alt={`${currency.name} logo`} />
             </div>
-          </div>
+            <div className="coin-card-details">
+              <h2 className="coin-name">{currency.name}</h2>
+              <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
+              <p className="coin-price">${currency.current_price.toLocaleString()}</p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
@@ -45,5 +49,8 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
+
+
 
 
