@@ -1,34 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Stocks = () => {
-  const [stocks, setStocks] = useState([]);
+const StockPrices = () => {
+  const [stockPrices, setStockPrices] = useState([]);
 
   useEffect(() => {
-    const fetchStocks = async () => {
+    const fetchStockPrices = async () => {
       const options = {
         method: 'GET',
-        url: 'https://financialmodelingprep.com/api/v3/stock/list',
+        url: 'https://eod-historical-data.p.rapidapi.com/intraday/AAPL.US',
+        params: {
+          interval: '1h',
+          fmt: 'json',
+          from: '1564752900',
+          to: '1564753200'
+        },
+        headers: {
+          'X-RapidAPI-Key': 'a36a60d052msh67fceb7ce73b8eap167b3ajsn75d5c133f825',
+          'X-RapidAPI-Host': 'eod-historical-data.p.rapidapi.com'
+        }
       };
 
       try {
         const response = await axios.request(options);
-        setStocks(response.data.symbolsList);
+        setStockPrices(response.data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchStocks();
+    fetchStockPrices();
   }, []);
 
   return (
-    <div style={{ height: '400px', overflowY: 'scroll' }}>
-      <h1>Stocks</h1>
+    <div>
+      <h1>Stock Prices</h1>
       <ul>
-        {stocks && stocks.map((stock) => (
-          <li key={stock.symbol}>
-            {stock.name} ({stock.symbol})
+        {stockPrices && stockPrices.map((price) => (
+          <li key={price.date}>
+            Date: {price.date}, Open: {price.open}, High: {price.high}, Low: {price.low}, Close: {price.close}, Volume: {price.volume}
           </li>
         ))}
       </ul>
@@ -36,4 +46,5 @@ const Stocks = () => {
   );
 };
 
-export default Stocks;
+export default StockPrices;
+

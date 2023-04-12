@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import './CoinDetails.css';
+import './Cryptocurrency.css';
 
 const CoinDetails = ({ cryptocurrencies }) => {
   const { id } = useParams();
