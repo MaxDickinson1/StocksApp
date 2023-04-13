@@ -1,50 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const StockPrices = () => {
-  const [stockPrices, setStockPrices] = useState([]);
+const Stocks = () => {
+  const [stockData, setStockData] = useState(null);
 
   useEffect(() => {
-    const fetchStockPrices = async () => {
+    const fetchStockData = async () => {
       const options = {
         method: 'GET',
-        url: 'https://eod-historical-data.p.rapidapi.com/intraday/AAPL.US',
+        url: 'https://alpha-vantage.p.rapidapi.com/query',
         params: {
-          interval: '1h',
-          fmt: 'json',
-          from: '1564752900',
-          to: '1564753200'
+          function: 'TIME_SERIES_INTRADAY',
+          symbol: 'MSFT',
+          interval: '5min',
+          outputsize: 'compact',
+          datatype: 'json',
         },
         headers: {
-          'X-RapidAPI-Key': 'a36a60d052msh67fceb7ce73b8eap167b3ajsn75d5c133f825',
-          'X-RapidAPI-Host': 'eod-historical-data.p.rapidapi.com'
-        }
+          'x-rapidapi-host': 'alpha-vantage.p.rapidapi.com',
+          'x-rapidapi-key': 'a36a60d052msh67fceb7ce73b8eap167b3ajsn75d5c133f825',
+          useQueryString: true,
+        },
       };
 
       try {
         const response = await axios.request(options);
-        setStockPrices(response.data);
+        setStockData(response.data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchStockPrices();
+    fetchStockData();
   }, []);
 
   return (
     <div>
-      <h1>Stock Prices</h1>
-      <ul>
-        {stockPrices && stockPrices.map((price) => (
-          <li key={price.date}>
-            Date: {price.date}, Open: {price.open}, High: {price.high}, Low: {price.low}, Close: {price.close}, Volume: {price.volume}
-          </li>
-        ))}
-      </ul>
+      <h1>Stock Data</h1>
+      {stockData && (
+        <div>
+          <h2>{stockData['Meta Data']['2. Symbol']}</h2>
+          <ul>
+            {Object.keys(stockData['Time Series (5min)']).map((timestamp) => (
+              <li key={timestamp}>
+                <strong>{timestamp}</strong>: {stockData['Time Series (5min)'][timestamp]['4. close']}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
 
-export default StockPrices;
+export default Stocks;
+
+
+
+
 

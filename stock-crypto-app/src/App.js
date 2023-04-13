@@ -6,6 +6,7 @@ import Homepage from './components/Homepage';
 import Stocks from './components/Stocks';
 import Cryptocurrency from './components/Cryptocurrency';
 import Auth from './components/Auth';
+import CoinDetail from './components/CoinDetail'; // Import the CoinDetail component here
 import './App.css';
 
 function App() {
@@ -18,11 +19,13 @@ function App() {
           <Route path="/stocks" element={<Stocks />} />
           <Route path="/cryptocurrency" element={<Cryptocurrency />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/coins/:id" element={<CoinDetail />} /> {/* Add this new route */}
         </Routes>
       </Container>
     </Router>
   );
 }
+
 
 export default App;
 

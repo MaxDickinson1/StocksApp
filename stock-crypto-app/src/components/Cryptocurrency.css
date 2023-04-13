@@ -186,3 +186,71 @@
   }
   
   
+
+/* 
+  coindetail */
+
+  .coin-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .coin-detail h1 {
+    margin-bottom: 20px;
+  }
+  
+  .coin-detail-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .coin-detail-image {
+    flex: 0 0 200px;
+    margin-right: 20px;
+  }
+  
+  .coin-detail-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .coin-detail-info {
+    flex: 1 1 0;
+    max-width: 400px;
+  }
+  
+  .coin-detail-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .coin-detail-info-label {
+    font-weight: bold;
+  }
+  
+  .coin-detail-info-value {
+    font-size: 1.2rem;
+  }
+  
+  .coin-detail-info-value.positive {
+    color: green;
+  }
+  
+  .coin-detail-info-value.negative {
+    color: red;
+  }
+  
+  .coin-detail-chart {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
