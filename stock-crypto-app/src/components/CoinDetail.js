@@ -15,13 +15,14 @@ const CoinDetail = () => {
     const fetchCoin = async () => {
       const options = {
         method: 'GET',
-        url: `https://api.coingecko.com/api/v3/coins/${id}`,
+        url: `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=30`,
+
       };
 
       try {
         const response = await axios.request(options);
         setCoin(response.data);
-        setPrices(response.data.market_data.sparkline_7d.price);
+        setPrices(response.data.prices.map((price) => price[1]));
       } catch (error) {
         console.error(error);
       }
@@ -95,55 +96,47 @@ const CoinDetail = () => {
       <h1>{coin ? coin.name : 'Loading...'}</h1>
       {coin && (
         <div className="coin-detail-content">
-          <div className="coin-detail-image">
-            <img src={coin.image.small} alt={coin.name} />
+          <div className="coin-detail-chart">
+            <canvas ref={chartRef}></canvas>
           </div>
           <div className="coin-detail-info">
-            <div className="coin-detail-info-row">
-              <div className="coin-detail-info-label">Symbol:</div>
-              <div className="coin-detail-info-value">{coin.symbol.toUpperCase()}</div>
-            </div>
+          <div className="coin-detail-info-row">
+  <div className="coin-detail-info-label">Symbol:</div>
+  <div className="coin-detail-info-value">{coin && coin.symbol && coin.symbol.toUpperCase()}</div>
+</div>
+
             <div className="coin-detail-info-row">
               <div className="coin-detail-info-label">Current Price:</div>
               <div className="coin-detail-info-value">${coin.market_data.current_price.usd.toLocaleString()}</div>
             </div>
             <div className="coin-detail-info-row">
               <div className="coin-detail-info-label">24 Hour Change:</div>
-              <div className={`coin-detail-info-value ${coin.market_data.price_change_percentage_24h >= 0 ?
-                        'positive' : 'negative'}`}>
-                        {coin.market_data.price_change_percentage_24h.toFixed(2)}%
-                      </div>
-                    </div>
-                    <div className="coin-detail-info-row">
-                      <div className="coin-detail-info-label">Market Cap:</div>
-                      <div className="coin-detail-info-value">${coin.market_data.market_cap.usd.toLocaleString()}</div>
-                    </div>
-                    <div className="coin-detail-info-row">
-                      <div className="coin-detail-info-label">Total Volume:</div>
-                      <div className="coin-detail-info-value">${coin.market_data.total_volume.usd.toLocaleString()}</div>
-                    </div>
-                    <div className="coin-detail-info-row">
-                      <div className="coin-detail-info-label">Description:</div>
-                      <div className="coin-detail-info-value">{coin.description.en}</div>
-                    </div>
-                  </div>
-                  <div className="coin-detail-chart">
-                    <canvas ref={chartRef}></canvas>
-                  </div>
-                </div>
-              )}
+              <div className={`coin-detail-info-value ${coin.market_data.price_change_percentage_24h >= 0 ? 'positive' : 'negative'}`}>
+                {coin.market_data.price_change_percentage_24h.toFixed(2)}%
+              </div>
             </div>
-);
+            <div className="coin-detail-info-row">
+              <div className="coin-detail-info-label">Market Cap:</div>
+              <div className="coin-detail-info-value">${coin.market_data.market_cap.usd.toLocaleString()}</div>
+            </div>
+            <div className="coin-detail-info-row">
+              <div className="coin-detail-info-label">Total Volume:</div>
+              <div className="coin-detail-info-value">${coin.market_data.total_volume.usd.toLocaleString()}</div>
+            </div>
+          </div>
+        </div>
+      )}
+      {coin && (
+        <div className="coin-detail-description">
+          <h2>Description</h2>
+          <p>{coin.description.en}</p>
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default CoinDetail;            
-
-
-
-
-
-
-
+export default CoinDetail;
 
 
 

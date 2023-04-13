@@ -191,66 +191,78 @@
   coindetail */
 
   .coin-detail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+    padding: 24px;
+    background-color: #f2f2f2;
   }
   
   .coin-detail h1 {
-    margin-bottom: 20px;
+    font-size: 36px;
+    margin: 0;
+    margin-bottom: 12px;
   }
   
   .coin-detail-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
   }
   
-  .coin-detail-image {
-    flex: 0 0 200px;
-    margin-right: 20px;
-  }
-  
-  .coin-detail-image img {
-    max-width: 100%;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  .coin-detail-chart {
+    width: 65%;
+    max-width: 800px;
   }
   
   .coin-detail-info {
-    flex: 1 1 0;
-    max-width: 400px;
+    width: 30%;
+    max-width: 350px;
+    margin-left: 24px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
   }
   
   .coin-detail-info-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 8px;
   }
   
   .coin-detail-info-label {
     font-weight: bold;
+    margin-right: 8px;
   }
   
   .coin-detail-info-value {
-    font-size: 1.2rem;
+    font-weight: 500;
   }
   
-  .coin-detail-info-value.positive {
+  .positive {
     color: green;
   }
   
-  .coin-detail-info-value.negative {
+  .negative {
     color: red;
   }
   
-  .coin-detail-chart {
-    width: 100%;
-    max-width: 800px;
-    margin-top: 40px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  .coin-detail-description {
+    margin-top: 24px;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .coin-detail-description-title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  
+  .coin-detail-description-text {
+    font-size: 16px;
+    line-height: 1.5;
   }
   
