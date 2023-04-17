@@ -30,7 +30,7 @@ const Auth = () => {
     <div className="auth-container">
       {isLoggedIn ? (
         <div className="auth-indication">
-          You are logged in as <span>{username}</span>
+          You are logged in as <span>{localStorage.getItem('username')}</span>
         </div>
       ) : null}
       <h1 className="auth-title">{isLogin ? 'Login' : 'Register'}</h1>
@@ -61,5 +61,6 @@ const Auth = () => {
 };
 
 export default Auth;
+
 
 
