@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
-import Stocks from './components/Stocks';
+
 import Cryptocurrency from './components/Cryptocurrency';
 import Auth from './components/Auth';
 import CoinDetail from './components/CoinDetail'; 
