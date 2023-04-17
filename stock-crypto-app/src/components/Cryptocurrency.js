@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import './Cryptocurrency.css';
 
 const Cryptocurrency = () => {
   const [cryptocurrencies, setCryptocurrencies] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
@@ -26,12 +28,16 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
+  const handleCardClick = (currency) => {
+    history.push(`/coins/${currency.id}`);
+  };
+
   return (
     <div className="coin-list">
       <h1 className="title">Cryptocurrencies</h1>
       <div className="coin-grid">
         {cryptocurrencies.map((currency) => (
-          <div key={currency.id} className="coin-card">
+          <div key={currency.id} className="coin-card" onClick={() => handleCardClick(currency)}>
             <div className="coin-card-image">
               <img src={currency.image} alt={`${currency.name} logo`} />
             </div>
@@ -48,6 +54,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 
