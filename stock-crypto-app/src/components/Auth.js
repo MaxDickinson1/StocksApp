@@ -18,6 +18,8 @@ const Auth = () => {
       console.log(response.data);
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('token', response.data.token);
+      setUsername('');
+      setPassword('');
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
@@ -59,4 +61,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
 
