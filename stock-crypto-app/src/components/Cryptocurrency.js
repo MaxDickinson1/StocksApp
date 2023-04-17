@@ -5,6 +5,7 @@ import './Cryptocurrency.css';
 
 const Cryptocurrency = () => {
   const [cryptocurrencies, setCryptocurrencies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
@@ -27,11 +28,23 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredCryptocurrencies = cryptocurrencies.filter((currency) => {
+    return currency.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           currency.symbol.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   return (
     <div className="coin-list">
       <h1 className="title">Cryptocurrencies</h1>
+      <div className="search-bar">
+        <input type="text" placeholder="Search coins..." value={searchTerm} onChange={handleSearchChange} />
+      </div>
       <div className="coin-grid">
-        {cryptocurrencies.map((currency) => (
+        {filteredCryptocurrencies.map((currency) => (
           <Link key={currency.id} to={`/coins/${currency.id}`} className="coin-card">
             <div className="coin-card-image">
               <img src={currency.image} alt={`${currency.name} logo`} />
@@ -52,6 +65,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 

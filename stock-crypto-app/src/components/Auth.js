@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Cryptocurrency.css';
+import './Auth.css';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,10 +12,11 @@ const Auth = () => {
     const route = isLogin ? '/login' : '/register';
     const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
 
-
     try {
       const response = await axios.post(apiUrl, { username, password });
       console.log(response.data);
+      setUsername('');
+      setPassword('');
     } catch (error) {
       console.error(error);
     }
