@@ -40,6 +40,9 @@ const Cryptocurrency = () => {
               <h2 className="coin-name">{currency.name}</h2>
               <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
               <p className="coin-price">${currency.current_price.toLocaleString()}</p>
+              {currency.description && currency.description.en && (
+                <p className="coin-description">{currency.description.en}</p>
+              )}
             </div>
           </Link>
         ))}
@@ -49,6 +52,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 
