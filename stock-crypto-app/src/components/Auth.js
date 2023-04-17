@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Cryptocurrency.css';
 
-const Auth = ({ setLoggedIn, setUsername }) => {
+const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,8 +18,7 @@ const Auth = ({ setLoggedIn, setUsername }) => {
       console.log(response.data);
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('token', response.data.token);
-      setLoggedIn(true);
-      setUsername(username);
+      setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
     }
@@ -26,6 +26,11 @@ const Auth = ({ setLoggedIn, setUsername }) => {
 
   return (
     <div className="auth-container">
+      {isLoggedIn ? (
+        <div className="auth-indication">
+          You are logged in as <span>{username}</span>
+        </div>
+      ) : null}
       <h1 className="auth-title">{isLogin ? 'Login' : 'Register'}</h1>
       <form className="auth-form" onSubmit={handleSubmit}>
         <input
@@ -46,11 +51,6 @@ const Auth = ({ setLoggedIn, setUsername }) => {
           {isLogin ? 'Login' : 'Register'}
         </button>
       </form>
-      {isLoggedIn ? (
-        <div className="auth-indication">
-          You are logged in as <span>{username}</span>
-        </div>
-      ) : null}
       <p className="auth-switch" onClick={() => setIsLogin(!isLogin)}>
         {isLogin ? 'No account? Register.' : 'Already have an account? Login.'}
       </p>
@@ -59,5 +59,4 @@ const Auth = ({ setLoggedIn, setUsername }) => {
 };
 
 export default Auth;
-
 
