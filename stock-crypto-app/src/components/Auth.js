@@ -4,7 +4,6 @@ import './Cryptocurrency.css';
 
 const Auth = ({ setLoggedIn, setUsername }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
@@ -13,13 +12,8 @@ const Auth = ({ setLoggedIn, setUsername }) => {
     const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
 
     try {
-      const response = await axios.post(apiUrl, { username, password });
+      const response = await axios.post(apiUrl, { username: setUsername, password });
       console.log(response.data);
-
-      
-      setUsername(username);
-
-      
       setLoggedIn(true);
     } catch (error) {
       console.error(error);
@@ -34,7 +28,7 @@ const Auth = ({ setLoggedIn, setUsername }) => {
           className="auth-input"
           type="text"
           placeholder="Username"
-          value={username}
+          value={setUsername}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
@@ -56,4 +50,5 @@ const Auth = ({ setLoggedIn, setUsername }) => {
 };
 
 export default Auth;
+
 
