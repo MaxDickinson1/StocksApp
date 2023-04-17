@@ -17,18 +17,20 @@ const CoinDetail = () => {
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
       const options = {
         method: 'GET',
-        url: `/coins/${id}/market_chart/range`,
+        url: `https://api.coingecko.com/api/v3/coins/${id}`,
         params: {
-          vs_currency: 'usd',
-          from: Math.floor(thirtyDaysAgo.getTime() / 1000),
-          to: Math.floor(Date.now() / 1000),
+          tickers: false,
+          market_data: true,
+          community_data: false,
+          developer_data: false,
+          localization: false,
         },
       };
 
       try {
         const response = await coinGeckoClient.request(options);
         setCoin(response.data);
-        setPrices(response.data.prices);
+        setPrices(response.data.market_data.sparkline_7d.price);
       } catch (error) {
         console.error(error);
       }
@@ -42,8 +44,10 @@ const CoinDetail = () => {
       const context = chartRef.current.getContext('2d');
 
       if (context) {
-        const labels = prices.map((price) => {
-          return new Date(price[0]);
+        const labels = prices.map((price, index) => {
+          const date = new Date();
+          date.setDate(date.getDate() - 6 + index);
+          return date;
         });
 
         if (chartRef.current.chart) {
@@ -57,7 +61,7 @@ const CoinDetail = () => {
             datasets: [
               {
                 label: `${coin.name} Price`,
-                data: prices.map((price) => price[1]),
+                data: prices,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1,
@@ -108,6 +112,7 @@ const CoinDetail = () => {
 };
 
 export default CoinDetail;
+
 
 
 
