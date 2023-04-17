@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Cryptocurrency.css';
 
-const Auth = ({ setLoggedIn }) => {
+const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,26 +12,25 @@ const Auth = ({ setLoggedIn }) => {
     e.preventDefault();
     const route = isLogin ? '/login' : '/register';
     const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
-
+  
     try {
       const response = await axios.post(apiUrl, { username, password });
       console.log(response.data);
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('token', response.data.token);
+      setUsername(response.data.username); // set the username state
       setIsLoggedIn(true);
-      setLoggedIn(true);
-      setUsername('');
       setPassword('');
     } catch (error) {
       console.error(error);
     }
   };
-
+  
   return (
     <div className="auth-container">
       {isLoggedIn ? (
         <div className="auth-indication">
-          You are logged in as <span>{username}</span>
+          You are logged in as <span>{localStorage.getItem('username')}</span>
         </div>
       ) : null}
       <h1 className="auth-title">{isLogin ? 'Login' : 'Register'}</h1>
@@ -62,7 +61,6 @@ const Auth = ({ setLoggedIn }) => {
 };
 
 export default Auth;
-
 
 
 
