@@ -8,7 +8,7 @@ const HomePage = ({ userId }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       const token = localStorage.getItem('token');
-      const userIdFromStorage = JSON.parse(localStorage.getItem('user')).id;
+      const favorites = user && user.favorites ? user.favorites : [];
       console.log('userIdFromStorage:', userIdFromStorage);
       try {
         const response = await axios.get(
