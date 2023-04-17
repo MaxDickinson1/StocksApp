@@ -1,4 +1,5 @@
 import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Cryptocurrency.css';
 import useAuth from '../hooks/useAuth';
