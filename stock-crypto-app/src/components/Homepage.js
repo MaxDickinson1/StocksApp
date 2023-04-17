@@ -7,16 +7,25 @@ const Favorites = ({ userId }) => {
 
   useEffect(() => {
     const fetchFavorites = async () => {
+      const token = localStorage.getItem('token');
+      const userId = JSON.parse(localStorage.getItem('user')).id;
       try {
-        const response = await axios.get(`https://stark-chamber-73716.herokuapp.com/users/${userId}/favorites`);
+        const response = await axios.get(
+          `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`, 
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log('Favorites fetched:', response.data);
         setFavorites(response.data);
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching favorites:', error.message);
       }
     };
-
-    fetchFavorites();
-  }, [userId]);
+  
+    if (localStorage.getItem('token')) {
+      fetchFavorites();
+    }
+  }, []);
+  
 
   return (
     <div className="coin-list">

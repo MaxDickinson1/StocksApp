@@ -26,33 +26,24 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
-  const handleAddToFavorites = async (id) => {
-    const userId = localStorage.getItem('userId');
-  
-    
-    if (!userId) {
-      window.location.href = '/login'; 
-      return;
-    }
-  
-    const apiUrl = `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`;
-  
-    const options = {
-      method: 'PUT',
-      url: apiUrl,
-      data: { type: 'crypto', id },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    };
+  const handleAddToFavorites = async (currency) => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const token = localStorage.getItem('token');
+    const userId = JSON.parse(localStorage.getItem('user')).id; 
   
     try {
-      const response = await axios.request(options);
-      console.log(response.data);
+      await axios.put(
+        `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`,
+        { ...currency, timestamp: new Date().getTime() },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log('Added to favorites:', currency.name);
+      localStorage.setItem('favorites', JSON.stringify([...favorites, currency]));
     } catch (error) {
-      console.error(error);
+      console.error('Error adding to favorites:', error.message);
     }
   };
+  
   
 
   return (
