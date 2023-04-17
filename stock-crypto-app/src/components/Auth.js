@@ -1,54 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Cryptocurrency.css';
 
-const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Auth = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const route = isLogin ? '/login' : '/register';
-    const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
 
+    if (token && userId) {
+      axios.get(`https://stark-chamber-73716.herokuapp.com/user/${userId}`)
+        .then((response) => {
+          setUser(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching user:', error.message);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
+  const login = async (email, password) => {
     try {
-      const response = await axios.post(apiUrl, { username, password });
-      console.log(response.data);
+      const response = await axios.post('https://stark-chamber-73716.herokuapp.com/auth/login', {
+        email,
+        password,
+      });
+
+      const { token, userId } = response.data;
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', userId);
+
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+      const userResponse = await axios.get(`https://stark-chamber-73716.herokuapp.com/user/${userId}`);
+      setUser(userResponse.data);
     } catch (error) {
-      console.error(error);
+      console.error('Error logging in:', error.message);
     }
   };
 
-  return (
-    <div className="auth-container">
-      <h1 className="auth-title">{isLogin ? 'Login' : 'Register'}</h1>
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <input
-          className="auth-input"
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          className="auth-input"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="auth-button" type="submit">
-          {isLogin ? 'Login' : 'Register'}
-        </button>
-      </form>
-      <p className="auth-switch" onClick={() => setIsLogin(!isLogin)}>
-        {isLogin ? 'No account? Register.' : 'Already have an account? Login.'}
-      </p>
-    </div>
-  );
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    setUser(null);
+    axios.defaults.headers.common.Authorization = null;
+  };
+
+  return children({ user, loading, login, logout });
 };
 
 export default Auth;
+
 

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Cryptocurrency.css';
 
-const HomePage = ({ userId }) => {
+const HomePage = () => {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchFavorites = async () => {
       const token = localStorage.getItem('token');
-      const userIdFromStorage = JSON.parse(localStorage.getItem('user')).id;
-      console.log('userIdFromStorage:', userIdFromStorage);
+      const userId = localStorage.getItem('userId');
+
       try {
         const response = await axios.get(
-          `https://stark-chamber-73716.herokuapp.com/user/${userIdFromStorage}/favorites`, 
+          `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         console.log('Favorites fetched:', response.data);
@@ -21,12 +21,9 @@ const HomePage = ({ userId }) => {
         console.error('Error fetching favorites:', error.message);
       }
     };
-  
-    if (localStorage.getItem('token')) {
-      fetchFavorites();
-    }
+
+    fetchFavorites();
   }, []);
-  
 
   return (
     <div className="coin-list">
@@ -46,6 +43,7 @@ const HomePage = ({ userId }) => {
 };
 
 export default HomePage;
+
 
 
 
