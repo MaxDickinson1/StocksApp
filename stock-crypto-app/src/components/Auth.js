@@ -6,33 +6,23 @@ const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const route = isLogin ? '/login' : '/register';
     const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
-  
+
+
     try {
       const response = await axios.post(apiUrl, { username, password });
       console.log(response.data);
-      localStorage.setItem('userId', response.data.userId);
-      localStorage.setItem('token', response.data.token);
-      setUsername(response.data.username); // set the username state
-      setIsLoggedIn(true);
-      setPassword('');
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   return (
     <div className="auth-container">
-      {isLoggedIn ? (
-        <div className="auth-indication">
-          You are logged in as <span>{localStorage.getItem('username')}</span>
-        </div>
-      ) : null}
       <h1 className="auth-title">{isLogin ? 'Login' : 'Register'}</h1>
       <form className="auth-form" onSubmit={handleSubmit}>
         <input
@@ -61,6 +51,4 @@ const Auth = () => {
 };
 
 export default Auth;
-
-
 
