@@ -1,61 +1,47 @@
-import { useContext, useState, useEffect } from 'react';
-import UserContext from './UserContext';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Favorites = () => {
-  const { user } = useContext(UserContext);
+const Homepage = () => {
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const response = await axios.get(`https://stark-chamber-73716.herokuapp.com/user/${user.id}/favorites`);
-        setFavorites(response.data);
-      } catch (error) {
-        console.error('Error fetching favorites:', error.message);
-      }
-    };
-
-    if (user) {
-      fetchFavorites();
+    const userIdFromStorage = localStorage.getItem('userId');
+    if (userIdFromStorage) {
+      axios
+        .get(`https://stark-chamber-73716.herokuapp.com/user/${userIdFromStorage}/favorites`)
+        .then((response) => {
+          setFavorites(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching favorites:', error.message);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
     }
-  }, [user]);
-
-  const removeFromFavorites = async (favoriteId) => {
-    try {
-      await axios.delete(`https://stark-chamber-73716.herokuapp.com/user/${user.id}/favorites/${favoriteId}`);
-      setFavorites(favorites.filter((favorite) => favorite.id !== favoriteId));
-    } catch (error) {
-      console.error('Error removing favorite:', error.message);
-    }
-  };
-
-  if (!user) {
-    return <p>You need to log in to see your favorites.</p>;
-  }
+  }, []);
 
   return (
     <div>
-      <h1>Your Favorites</h1>
-      {favorites.length === 0 ? (
-        <p>You haven't added any favorites yet.</p>
-      ) : (
+      <h1>My Favorites</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : favorites.length ? (
         <ul>
           {favorites.map((favorite) => (
-            <li key={favorite.id}>
-              {favorite.title} ({favorite.year})
-              <button onClick={() => removeFromFavorites(favorite.id)}>Remove</button>
-            </li>
+            <li key={favorite.id}>{favorite.title}</li>
           ))}
         </ul>
+      ) : (
+        <p>No favorites yet.</p>
       )}
     </div>
   );
 };
 
-export default Favorites;
-
-
+export default Homepage;
 
 
 
