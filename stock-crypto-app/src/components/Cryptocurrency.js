@@ -28,7 +28,9 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
-  const handleAddFavorite = async (coin) => {
+  const handleAddFavorite = async (e, coin) => {
+    e.preventDefault();
+
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
@@ -60,19 +62,19 @@ const Cryptocurrency = () => {
       <h1 className="title">Cryptocurrencies</h1>
       <div className="coin-grid">
         {cryptocurrencies.map((currency) => (
-          <Link key={currency.id} to={`/coins/${currency.id}`} className="coin-card">
+          <div key={currency.id} className="coin-card">
             <div className="coin-card-image">
               <img src={currency.image} alt={`${currency.name} logo`} />
             </div>
             <div className="coin-card-details">
-              <h2 className="coin-name">{currency.name}</h2>
+              <Link to={`/coins/${currency.id}`} className="coin-name">{currency.name}</Link>
               <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
               <p className="coin-price">${currency.current_price.toLocaleString()}</p>
-              <Button variant="primary" onClick={() => handleAddFavorite(currency)}>
+              <Button variant="primary" onClick={(e) => handleAddFavorite(e, currency)}>
                 Add to Favorites
               </Button>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
@@ -80,6 +82,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 
