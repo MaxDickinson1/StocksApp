@@ -1,49 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Row, Col } from 'react-bootstrap';
+import './Cryptocurrency.css';
 
-const Homepage = () => {
+const Favorites = ({ userId }) => {
   const [favorites, setFavorites] = useState([]);
-  const userId = localStorage.getItem('userId');
-  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (!userId || !token) return;
-
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`https://stark-chamber-73716.herokuapp.com/users/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setFavorites(response.data.favorites);
+        const response = await axios.get(`https://stark-chamber-73716.herokuapp.com/users/${userId}/favorites`);
+        setFavorites(response.data);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchFavorites();
-  }, [userId, token]);
+  }, [userId]);
 
   return (
-    <div>
-      <h1>Your Favorites</h1>
-      <Row>
-        {favorites.map((favorite, index) => (
-          <Col key={index} md={4}>
-            <Card>
-              <Card.Body>
-                <Card.Title>{favorite.name} ({favorite.symbol})</Card.Title>
-                <Card.Text>Price: ${favorite.price.toLocaleString()}</Card.Text>
-                <Card.Text>Change: {favorite.change}%</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+    <div className="coin-list">
+      <h1 className="title">Favorites</h1>
+      <div className="coin-grid">
+        {favorites.map((favorite) => (
+          <div key={`${favorite.type}-${favorite.symbol}`} className="coin-card">
+            <div className="coin-card-details">
+              <h2 className="coin-name">{favorite.name}</h2>
+              <p className="coin-symbol">{favorite.symbol.toUpperCase()}</p>
+            </div>
+          </div>
         ))}
-      </Row>
+      </div>
     </div>
   );
 };
 
-export default Homepage;
+export default Favorites;
+
 
 

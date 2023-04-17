@@ -8,7 +8,7 @@ const Cryptocurrency = () => {
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
-      const vs_currency = 'usd'; 
+      const vs_currency = 'usd';
 
       const options = {
         method: 'GET',
@@ -27,12 +27,32 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
+  const handleAddToFavorites = async (id) => {
+    const apiUrl = `https://stark-chamber-73716.herokuapp.com/user/${localStorage.getItem('userId')}/favorites`;
+
+    const options = {
+      method: 'PUT',
+      url: apiUrl,
+      data: { type: 'crypto', id },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    };
+
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="coin-list">
       <h1 className="title">Cryptocurrencies</h1>
       <div className="coin-grid">
         {cryptocurrencies.map((currency) => (
-          <Link key={currency.id} to={`/coins/${currency.id}`} className="coin-card">
+          <div key={currency.id} className="coin-card">
             <div className="coin-card-image">
               <img src={currency.image} alt={`${currency.name} logo`} />
             </div>
@@ -40,8 +60,9 @@ const Cryptocurrency = () => {
               <h2 className="coin-name">{currency.name}</h2>
               <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
               <p className="coin-price">${currency.current_price.toLocaleString()}</p>
+              <button onClick={() => handleAddToFavorites(currency.id)}>Add to Favorites</button>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
@@ -49,6 +70,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 
