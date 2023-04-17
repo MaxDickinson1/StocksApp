@@ -4,6 +4,7 @@ import './Cryptocurrency.css';
 
 const Auth = ({ setLoggedIn, setUsername }) => {
   const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
@@ -12,9 +13,12 @@ const Auth = ({ setLoggedIn, setUsername }) => {
     const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
 
     try {
-      const response = await axios.post(apiUrl, { username: setUsername, password });
+      const response = await axios.post(apiUrl, { username, password });
       console.log(response.data);
+      localStorage.setItem('userId', response.data.userId);
+      localStorage.setItem('token', response.data.token);
       setLoggedIn(true);
+      setUsername(username);
     } catch (error) {
       console.error(error);
     }
@@ -28,7 +32,7 @@ const Auth = ({ setLoggedIn, setUsername }) => {
           className="auth-input"
           type="text"
           placeholder="Username"
-          value={setUsername}
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
@@ -42,6 +46,11 @@ const Auth = ({ setLoggedIn, setUsername }) => {
           {isLogin ? 'Login' : 'Register'}
         </button>
       </form>
+      {isLoggedIn ? (
+        <div className="auth-indication">
+          You are logged in as <span>{username}</span>
+        </div>
+      ) : null}
       <p className="auth-switch" onClick={() => setIsLogin(!isLogin)}>
         {isLogin ? 'No account? Register.' : 'Already have an account? Login.'}
       </p>
