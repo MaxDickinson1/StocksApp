@@ -29,12 +29,19 @@ const Cryptocurrency = () => {
   const handleAddToFavorites = async (currency) => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const token = localStorage.getItem('token');
-    const userId = JSON.parse(localStorage.getItem('user')).id; 
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (!user || !user.id) {
+      console.error('User not logged in!');
+      return;
+    }
   
+    const userId = user.id;
+    
     try {
       await axios.put(
         `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`,
-        currency.id,
+        { ...currency, timestamp: new Date().getTime() },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log('Added to favorites:', currency.name);
@@ -43,7 +50,6 @@ const Cryptocurrency = () => {
       console.error('Error adding to favorites:', error.message);
     }
   };
-
   
 
   return (
