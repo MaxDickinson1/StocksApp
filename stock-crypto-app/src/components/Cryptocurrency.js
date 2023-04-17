@@ -26,32 +26,6 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
-  const handleAddToFavorites = async (currency) => {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
-    
-    if (!user || !user.id) {
-      console.error('User not logged in!');
-      return;
-    }
-  
-    const userId = user.id;
-    
-    try {
-      await axios.put(
-        `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`,
-        { ...currency, timestamp: new Date().getTime() },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      console.log('Added to favorites:', currency.name);
-      localStorage.setItem('favorites', JSON.stringify([...favorites, currency]));
-    } catch (error) {
-      console.error('Error adding to favorites:', error.message);
-    }
-  };
-  
-
   return (
     <div className="coin-list">
       <h1 className="title">Cryptocurrencies</h1>
@@ -65,7 +39,6 @@ const Cryptocurrency = () => {
               <h2 className="coin-name">{currency.name}</h2>
               <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
               <p className="coin-price">${currency.current_price.toLocaleString()}</p>
-              <button onClick={() => handleAddToFavorites(currency)}>Add to Favorites</button>
             </div>
           </div>
         ))}
@@ -75,6 +48,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 
