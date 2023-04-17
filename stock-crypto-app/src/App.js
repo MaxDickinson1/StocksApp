@@ -16,7 +16,6 @@ function App() {
       <Container>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/stocks" element={<Stocks />} />
           <Route path="/cryptocurrency" element={<Cryptocurrency />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/coins/:id" element={<CoinDetail />} /> 
