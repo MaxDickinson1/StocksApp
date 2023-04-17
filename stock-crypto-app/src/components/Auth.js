@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './Cryptocurrency.css';
-import UserContext from './UserContext';
 
 const Auth = () => {
-  const { setUser } = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,15 +12,10 @@ const Auth = () => {
     const route = isLogin ? '/login' : '/register';
     const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
 
+
     try {
       const response = await axios.post(apiUrl, { username, password });
-      const { data: { user, token } } = response;
-
-
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
-
-      setUser(user);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
