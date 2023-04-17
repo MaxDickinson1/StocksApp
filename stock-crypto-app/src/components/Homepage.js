@@ -4,14 +4,13 @@ import { Card, Row, Col } from 'react-bootstrap';
 
 const Homepage = () => {
   const [favorites, setFavorites] = useState([]);
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
+    if (!userId || !token) return;
+
     const fetchFavorites = async () => {
-      const userId = localStorage.getItem('userId');
-      const token = localStorage.getItem('token');
-
-      if (!userId || !token) return;
-
       try {
         const response = await axios.get(`https://stark-chamber-73716.herokuapp.com/users/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -23,7 +22,7 @@ const Homepage = () => {
     };
 
     fetchFavorites();
-  }, []);
+  }, [userId, token]);
 
   return (
     <div>
@@ -46,4 +45,5 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
 

@@ -28,33 +28,34 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
-  const handleAddFavorite = async (coin) => {
+  const handleAddFavorite = async (e, coin) => {
+    e.preventDefault();
+
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
-  
+
     if (!userId || !token) return;
-  
+
     const { id, name, symbol, current_price } = coin;
-  
+
     const payload = {
-      type: 'crypto',
-      symbol,
+      id,
       name,
+      symbol,
+      price: current_price,
     };
-  
+
     try {
-      await axios.put(
+      const response = await axios.post(
         `https://stark-chamber-73716.herokuapp.com/users/${userId}/favorites`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Update favorites in state
-      setFavorites([...favorites, payload]);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   return (
     <div className="coin-list">
