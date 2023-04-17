@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Cryptocurrency.css';
 
-const Auth = () => {
+const Auth = ({ setLoggedIn, setUsername }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,9 +15,12 @@ const Auth = () => {
     try {
       const response = await axios.post(apiUrl, { username, password });
       console.log(response.data);
-      localStorage.setItem('userId', response.data.userId);
-      localStorage.setItem('token', response.data.token);
-      setIsLoggedIn(true);
+
+      
+      setUsername(username);
+
+      
+      setLoggedIn(true);
     } catch (error) {
       console.error(error);
     }
@@ -26,11 +28,6 @@ const Auth = () => {
 
   return (
     <div className="auth-container">
-      {isLoggedIn ? (
-        <div className="auth-indication">
-          You are logged in as <span>{username}</span>
-        </div>
-      ) : null}
       <h1 className="auth-title">{isLogin ? 'Login' : 'Register'}</h1>
       <form className="auth-form" onSubmit={handleSubmit}>
         <input

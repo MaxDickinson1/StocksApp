@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Cryptocurrency.css';
 
-
-const Navbar = () => {
+const Navbar = ({ loggedIn, username }) => {
   return (
     <nav className="navbar">
       <div className="logo-container">
@@ -20,7 +19,11 @@ const Navbar = () => {
           <Link to="/cryptocurrency">Cryptocurrency</Link>
         </li>
         <li>
-          <Link to="/auth">Login/Register</Link>
+          {loggedIn ? (
+            <p>Welcome, {username}!</p>
+          ) : (
+            <Link to="/auth">Login/Register</Link>
+          )}
         </li>
       </ul>
     </nav>
@@ -28,4 +31,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
