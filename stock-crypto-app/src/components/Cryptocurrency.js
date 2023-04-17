@@ -31,20 +31,19 @@ const Cryptocurrency = () => {
   const handleAddFavorite = async (coin) => {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
-
+  
     if (!userId || !token) return;
-
+  
     const { id, name, symbol, current_price } = coin;
-
+  
     const payload = {
-      id,
-      name,
+      type: 'crypto',
       symbol,
-      price: current_price,
+      name,
     };
-
+  
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         `https://stark-chamber-73716.herokuapp.com/users/${userId}/favorites`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -54,6 +53,7 @@ const Cryptocurrency = () => {
       console.error(error);
     }
   };
+  
 
   return (
     <div className="coin-list">
