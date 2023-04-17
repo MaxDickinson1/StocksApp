@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import './Cryptocurrency.css';
 
 const Cryptocurrency = () => {
@@ -8,7 +9,7 @@ const Cryptocurrency = () => {
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
-      const vs_currency = 'usd'; 
+      const vs_currency = 'usd';
 
       const options = {
         method: 'GET',
@@ -27,6 +28,33 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
+  const handleAddFavorite = async (coin) => {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+
+    if (!userId || !token) return;
+
+    const { id, name, symbol, current_price } = coin;
+
+    const payload = {
+      id,
+      name,
+      symbol,
+      price: current_price,
+    };
+
+    try {
+      const response = await axios.post(
+        `https://stark-chamber-73716.herokuapp.com/users/${userId}/favorites`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="coin-list">
       <h1 className="title">Cryptocurrencies</h1>
@@ -40,6 +68,9 @@ const Cryptocurrency = () => {
               <h2 className="coin-name">{currency.name}</h2>
               <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
               <p className="coin-price">${currency.current_price.toLocaleString()}</p>
+              <Button variant="primary" onClick={() => handleAddFavorite(currency)}>
+                Add to Favorites
+              </Button>
             </div>
           </Link>
         ))}
@@ -49,6 +80,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 
