@@ -13,7 +13,7 @@ const Homepage = () => {
       if (!userId || !token) return;
 
       try {
-        const response = await axios.get(`http://localhost:5000/users/${userId}`, {
+        const response = await axios.get(`https://stark-chamber-73716.herokuapp.com/users/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFavorites(response.data.favorites);
