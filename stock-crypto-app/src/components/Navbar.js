@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Cryptocurrency.css';
 
-
 const Navbar = () => {
+  const username = localStorage.getItem('username');
+
   return (
     <nav className="navbar">
       <div className="logo-container">
@@ -19,9 +20,13 @@ const Navbar = () => {
         <li>
           <Link to="/cryptocurrency">Cryptocurrency</Link>
         </li>
-        <li>
-          <Link to="/auth">Login/Register</Link>
-        </li>
+        {username ? (
+          <li className="username">Welcome, {username}!</li>
+        ) : (
+          <li>
+            <Link to="/auth">Login/Register</Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
