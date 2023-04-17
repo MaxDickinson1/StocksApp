@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Cryptocurrency.css';
 
 const Cryptocurrency = () => {
   const [cryptocurrencies, setCryptocurrencies] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
-      const vs_currency = 'usd';
+      const vs_currency = 'usd'; 
 
       const options = {
         method: 'GET',
@@ -28,16 +27,12 @@ const Cryptocurrency = () => {
     fetchCryptocurrencies();
   }, []);
 
-  const handleCardClick = (currency) => {
-    history.push(`/coins/${currency.id}`);
-  };
-
   return (
     <div className="coin-list">
       <h1 className="title">Cryptocurrencies</h1>
       <div className="coin-grid">
         {cryptocurrencies.map((currency) => (
-          <div key={currency.id} className="coin-card" onClick={() => handleCardClick(currency)}>
+          <Link key={currency.id} to={`/coins/${currency.id}`} className="coin-card">
             <div className="coin-card-image">
               <img src={currency.image} alt={`${currency.name} logo`} />
             </div>
@@ -46,7 +41,7 @@ const Cryptocurrency = () => {
               <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
               <p className="coin-price">${currency.current_price.toLocaleString()}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
