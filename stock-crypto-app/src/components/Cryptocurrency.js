@@ -6,6 +6,7 @@ import './Cryptocurrency.css';
 
 const Cryptocurrency = () => {
   const [cryptocurrencies, setCryptocurrencies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
@@ -25,7 +26,24 @@ const Cryptocurrency = () => {
       }
     };
 
+    const fetchFavorites = async () => {
+      const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem('token');
+
+      if (!userId || !token) return;
+
+      try {
+        const response = await axios.get(`https://stark-chamber-73716.herokuapp.com/users/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setFavorites(response.data.favorites);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     fetchCryptocurrencies();
+    fetchFavorites();
   }, []);
 
   const handleAddFavorite = async (e, coin) => {
@@ -52,6 +70,8 @@ const Cryptocurrency = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log(response.data);
+
+      setFavorites([...favorites, payload]);
     } catch (error) {
       console.error(error);
     }
@@ -82,6 +102,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 

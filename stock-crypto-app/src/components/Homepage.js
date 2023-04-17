@@ -33,8 +33,8 @@ const Homepage = () => {
             <Card>
               <Card.Body>
                 <Card.Title>{favorite.name} ({favorite.symbol})</Card.Title>
-                <Card.Text>Price: {favorite.price}</Card.Text>
-                <Card.Text>Change: {favorite.change}</Card.Text>
+                <Card.Text>Price: ${favorite.price.toLocaleString()}</Card.Text>
+                <Card.Text>Change: {favorite.change}%</Card.Text>
               </Card.Body>
             </Card>
           </Col>
