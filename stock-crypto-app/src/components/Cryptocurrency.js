@@ -27,8 +27,16 @@ const Cryptocurrency = () => {
   }, []);
 
   const handleAddToFavorites = async (id) => {
-    const apiUrl = `https://stark-chamber-73716.herokuapp.com/user/${localStorage.getItem('userId')}/favorites`;
-
+    const userId = localStorage.getItem('userId');
+  
+    
+    if (!userId) {
+      window.location.href = '/login'; 
+      return;
+    }
+  
+    const apiUrl = `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`;
+  
     const options = {
       method: 'PUT',
       url: apiUrl,
@@ -37,7 +45,7 @@ const Cryptocurrency = () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
-
+  
     try {
       const response = await axios.request(options);
       console.log(response.data);
@@ -45,6 +53,7 @@ const Cryptocurrency = () => {
       console.error(error);
     }
   };
+  
 
   return (
     <div className="coin-list">
