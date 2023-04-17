@@ -34,7 +34,7 @@ const Cryptocurrency = () => {
     try {
       await axios.put(
         `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`,
-        { ...currency, timestamp: new Date().getTime() },
+        currency.id,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log('Added to favorites:', currency.name);
@@ -43,7 +43,7 @@ const Cryptocurrency = () => {
       console.error('Error adding to favorites:', error.message);
     }
   };
-  
+
   
 
   return (
@@ -59,7 +59,7 @@ const Cryptocurrency = () => {
               <h2 className="coin-name">{currency.name}</h2>
               <p className="coin-symbol">{currency.symbol.toUpperCase()}</p>
               <p className="coin-price">${currency.current_price.toLocaleString()}</p>
-              <button onClick={() => handleAddToFavorites(currency.id)}>Add to Favorites</button>
+              <button onClick={() => handleAddToFavorites(currency)}>Add to Favorites</button>
             </div>
           </div>
         ))}
