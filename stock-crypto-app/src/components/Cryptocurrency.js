@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Cryptocurrency.css';
+import useAuth from './useAuth';
 
 const Cryptocurrency = () => {
   const [cryptocurrencies, setCryptocurrencies] = useState([]);
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
@@ -28,19 +30,11 @@ const Cryptocurrency = () => {
 
   const handleAddToFavorites = async (currency) => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
-    
-    if (!user || !user.id) {
-      console.error('User not logged in!');
-      return;
-    }
+    const { user } = useAuth();
   
-    const userId = user.id;
-    
     try {
       await axios.put(
-        `https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites`,
+        `https://stark-chamber-73716.herokuapp.com/user/${user.id}/favorites`,
         { ...currency, timestamp: new Date().getTime() },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -50,6 +44,7 @@ const Cryptocurrency = () => {
       console.error('Error adding to favorites:', error.message);
     }
   };
+  
   
 
   return (
@@ -75,6 +70,7 @@ const Cryptocurrency = () => {
 };
 
 export default Cryptocurrency;
+
 
 
 
