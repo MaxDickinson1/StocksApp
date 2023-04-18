@@ -4,6 +4,8 @@ import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 import { coinGeckoClient } from './api';
 import './Cryptocurrency.css';
+import axios from 'axios';
+
 
 const CoinDetail = () => {
   const [coin, setCoin] = useState(null);
