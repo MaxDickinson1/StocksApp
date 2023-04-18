@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Cryptocurrency.css';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,8 +25,7 @@ const Auth = () => {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
 
-        // Redirect to the homepage or any other protected route
-        history.push('/');
+        navigate('/');
       } else {
         alert('User registered');
       }
@@ -73,4 +72,3 @@ const Auth = () => {
 };
 
 export default Auth;
-
