@@ -9,7 +9,7 @@ const Homepage = () => {
     const userIdFromStorage = localStorage.getItem('userId');
     if (userIdFromStorage) {
       axios
-        .get(`https://stark-chamber-73716.herokuapp.com/user/${userIdFromStorage}/favorites`)
+        .get(`https://stark-chamber-73716.herokuapp.com${userIdFromStorage}/favorites`)
         .then((response) => {
           setFavorites(response.data);
           setLoading(false);

@@ -10,7 +10,7 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const route = isLogin ? '/login' : '/register';
-    const apiUrl = 'https://stark-chamber-73716.herokuapp.com/users' + route;
+    const apiUrl = 'https://stark-chamber-73716.herokuapp.com' + route;
 
     try {
       const response = await axios.post(apiUrl, { username, password });
