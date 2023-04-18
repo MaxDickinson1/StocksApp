@@ -11,6 +11,25 @@ const CoinDetail = () => {
   const chartRef = useRef(null);
   const { id } = useParams();
 
+  const addToFavorites = async () => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert('You must be logged in to add to favorites');
+      return;
+    }
+
+    try {
+      await axios.post(`https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites/add`, {
+        id: coin.id,
+        name: coin.name,
+      });
+      alert('Added to favorites');
+    } catch (error) {
+      console.error('Error adding to favorites:', error.message);
+      alert('Error adding to favorites. Please try again.');
+    }
+  };
+
   useEffect(() => {
     const fetchCoin = async () => {
       const thirtyDaysAgo = new Date();
@@ -92,6 +111,7 @@ const CoinDetail = () => {
     <div className="coin-detail">
       {coin && (
         <div className="coin-detail-content">
+            <button onClick={addToFavorites}>Add to Favorites</button>
           <div className="coin-detail-chart">
             <canvas ref={chartRef}></canvas>
           </div>
@@ -108,4 +128,5 @@ const CoinDetail = () => {
 };
 
 export default CoinDetail;
+
 
