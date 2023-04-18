@@ -4,7 +4,8 @@ import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 import { coinGeckoClient } from './api';
 import './Cryptocurrency.css';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
+
 
 
 const CoinDetail = () => {
@@ -21,7 +22,7 @@ const CoinDetail = () => {
     }
 
     try {
-      await axios.post(`https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites/add`, {
+      await axiosInstance.post(`https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites/add`, {
         id: coin.id,
         name: coin.name,
       });

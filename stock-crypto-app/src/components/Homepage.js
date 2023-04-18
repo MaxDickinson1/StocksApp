@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
+
 
 const Homepage = () => {
   const [favorites, setFavorites] = useState([]);
@@ -8,7 +9,7 @@ const Homepage = () => {
   useEffect(() => {
     const userIdFromStorage = localStorage.getItem('userId');
     if (userIdFromStorage) {
-      axios
+        axiosInstance
         .get(`https://stark-chamber-73716.herokuapp.com/user/${userIdFromStorage}/favorites`)
         .then((response) => {
           setFavorites(response.data);

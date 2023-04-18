@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 import { Link } from 'react-router-dom';
 import './Cryptocurrency.css';
 
@@ -18,7 +18,7 @@ const Cryptocurrency = () => {
       };
 
       try {
-        const response = await axios.request(options);
+        const response = await axiosInstance.request(options);
         setCryptocurrencies(response.data);
       } catch (error) {
         console.error(error);

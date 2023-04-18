@@ -1,25 +1,45 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
+import { useHistory } from 'react-router-dom';
 import './Cryptocurrency.css';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const route = isLogin ? '/login' : '/register';
-    const apiUrl = `https://stark-chamber-73716.herokuapp.com/users${route}`;
-
+    const apiUrl = `https://stark-chamber-73716.herokuapp.com/api/auth${route}`;
 
     try {
-      const response = await axios.post(apiUrl, { username, password });
-      console.log(response.data);
+      const response = await axiosInstance.post(apiUrl, { username, password });
+
+      if (isLogin) {
+        const token = response.data.token;
+        const userId = response.data.userId;
+
+        // Save token and user ID to local storage
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId);
+
+        // Redirect to the homepage or any other protected route
+        history.push('/');
+      } else {
+        alert('User registered');
+      }
+
       setUsername('');
       setPassword('');
     } catch (error) {
       console.error(error);
+      if (isLogin) {
+        alert('Invalid username or password');
+      } else {
+        alert('Error registering user');
+      }
     }
   };
 

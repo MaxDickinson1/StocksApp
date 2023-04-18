@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 
-export const coinGeckoClient = axios.create({
+export const coinGeckoClient = axiosInstance.create({
   baseURL: 'https://api.coingecko.com/api/v3',
 });
 
