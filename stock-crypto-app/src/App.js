@@ -6,7 +6,7 @@ import Homepage from './components/Homepage';
 import Cryptocurrency from './components/Cryptocurrency';
 import Auth from './components/Auth';
 import CoinDetail from './components/CoinDetail';
-import PrivateRoute from './PrivateRoute'; // Import the PrivateRoute component
+import PrivateRoute from './PrivateRoute';
 import './App.css';
 
 function App() {
