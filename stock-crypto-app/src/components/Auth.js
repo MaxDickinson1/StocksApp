@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
-import { useHistory } from 'react-router-dom'; // Change this line
+import { useHistory } from 'react-router-dom';
 import './Cryptocurrency.css';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory(); // Change this line
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const route = isLogin ? '/login' : '/register';
-    const apiUrl = `https://stark-chamber-73716.herokuapp.com/api/auth${route}`;
+    const apiUrl = `https://stark-chamber-73716.herokuapp.com/users${route}`;
 
     try {
       const response = await axiosInstance.post(apiUrl, { username, password });
@@ -25,7 +25,7 @@ const Auth = () => {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
 
-        history.push('/'); // Change this line
+        history.push('/');
       } else {
         alert('User registered');
       }
@@ -72,4 +72,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
 
