@@ -9,8 +9,8 @@ const Homepage = () => {
   useEffect(() => {
     const userIdFromStorage = localStorage.getItem('userId');
     if (userIdFromStorage) {
-        axiosInstance
-        .get(`https://stark-chamber-73716.herokuapp.com/user/${userIdFromStorage}/favorites`)
+        axiosInstance.get(`http://localhost:5001/api/users/${userIdFromStorage}/favorites`)
+
         .then((response) => {
           setFavorites(response.data);
           setLoading(false);

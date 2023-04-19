@@ -2,11 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
-import { coinGeckoClient } from './api';
+import coinGeckoInstance from '../coinGeckoInstance';
 import './Cryptocurrency.css';
 import axiosInstance from '../axiosInstance';
-
-
 
 const CoinDetail = () => {
   const [coin, setCoin] = useState(null);
@@ -22,7 +20,7 @@ const CoinDetail = () => {
     }
 
     try {
-      await axiosInstance.post(`https://stark-chamber-73716.herokuapp.com/user/${userId}/favorites/add`, {
+      await axiosInstance.post(`http://localhost:5001/user/${userId}/favorites/add`, {
         id: coin.id,
         name: coin.name,
       });
@@ -48,7 +46,7 @@ const CoinDetail = () => {
       };
 
       try {
-        const response = await coinGeckoClient.request(options);
+        const response = await coinGeckoInstance.request(options);
         setCoin(response.data);
         setPrices(response.data.prices);
       } catch (error) {

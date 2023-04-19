@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 
 const AuthContext = createContext();
 
@@ -13,8 +13,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkLoggedInStatus = async () => {
       try {
-        const response = await axios.get('https://stark-chamber-73716.herokuapp.com/users/check-logged-in', { withCredentials: true });
-        setCurrentUser(response.data);
+        const response = await axiosInstance.get('http://localhost:5001/api/users/check-logged-in', { withCredentials: true });
+        setCurrentUser(response.data.currentUser);
       } catch (error) {
         console.error('Error fetching user:', error.message);
       }

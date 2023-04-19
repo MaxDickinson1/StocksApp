@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../axiosInstance';
 import { useHistory } from 'react-router-dom';
 import './Cryptocurrency.css';
+import coinGeckoInstance from '../coinGeckoInstance';
 
 const Cryptocurrency = () => {
   const [cryptocurrencies, setCryptocurrencies] = useState([]);
@@ -20,7 +20,7 @@ const Cryptocurrency = () => {
       };
 
       try {
-        const response = await axiosInstance.request(options);
+        const response = await coinGeckoInstance.request(options);
         setCryptocurrencies(response.data);
       } catch (error) {
         console.error(error);
