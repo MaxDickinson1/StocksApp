@@ -18,41 +18,61 @@ const CoinDetail = () => {
       alert('You must be logged in to add to favorites');
       return;
     }
-
+  
     try {
-      await axiosInstance.post(`http://localhost:5001/user/${userId}/favorites/add`, {
-        id: coin.id,
-        name: coin.name,
-      });
+      const response = await axiosInstance.post(
+        `http://localhost:5001/api/users/${userId}/favorites/add`,
+        {
+          coinId: coin.id,
+          coinName: coin.name,
+          coinSymbol: coin.symbol,
+          coinImage: coin.image,
+          coinCurrentPrice: coin.market_data && coin.market_data.current_price.usd,
+          coinDescriptionEn: coin.description && coin.description.en,
+        }
+      );
+  
+      console.log(response.data);
       alert('Added to favorites');
     } catch (error) {
       console.error('Error adding to favorites:', error.message);
       alert('Error adding to favorites. Please try again.');
     }
   };
+  
 
   useEffect(() => {
     const fetchCoin = async () => {
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      const options = {
-        method: 'GET',
-        url: `/coins/${id}/market_chart/range`,
-        params: {
-          vs_currency: 'usd',
-          from: Math.floor(thirtyDaysAgo.getTime() / 1000),
-          to: Math.floor(Date.now() / 1000),
-        },
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      
+        const chartOptions = {
+          method: 'GET',
+          url: `/coins/${id}/market_chart/range`,
+          params: {
+            vs_currency: 'usd',
+            from: Math.floor(thirtyDaysAgo.getTime() / 1000),
+            to: Math.floor(Date.now() / 1000),
+          },
+        };
+      
+        const coinOptions = {
+          method: 'GET',
+          url: `/coins/${id}`,
+        };
+      
+        try {
+          const [chartResponse, coinResponse] = await Promise.all([
+            coinGeckoInstance.request(chartOptions),
+            coinGeckoInstance.request(coinOptions),
+          ]);
+          setCoin(coinResponse.data);
+          setPrices(chartResponse.data.prices);
+        } catch (error) {
+          console.error(error);
+        }
       };
-
-      try {
-        const response = await coinGeckoInstance.request(options);
-        setCoin(response.data);
-        setPrices(response.data.prices);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      
 
     fetchCoin();
   }, [id]);
