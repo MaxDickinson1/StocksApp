@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Navbar from "./components/Navbar";
 import Homepage from "./components/Homepage";
@@ -16,12 +16,12 @@ function App() {
       <AuthProvider>
         <Navbar />
         <Container>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/cryptocurrency" element={<Cryptocurrency />} />
-            <Route path="/auth" element={<Auth />} />
+          <Switch>
+            <Route exact path="/" component={Homepage} />
+            <Route path="/cryptocurrency" component={Cryptocurrency} />
+            <Route path="/auth" component={Auth} />
             <PrivateRoute path="/coins/:id" component={CoinDetail} />
-          </Routes>
+          </Switch>
         </Container>
       </AuthProvider>
     </Router>
