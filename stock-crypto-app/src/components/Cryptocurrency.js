@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../axiosInstance';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Cryptocurrency.css';
 
 const Cryptocurrency = () => {
   const [cryptocurrencies, setCryptocurrencies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const history = useHistory();
 
   useEffect(() => {
     const fetchCryptocurrencies = async () => {
@@ -37,6 +39,10 @@ const Cryptocurrency = () => {
            currency.symbol.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
+  const handleCoinClick = (id) => {
+    history.push(`/coins/${id}`);
+  };
+
   return (
     <div className="coin-list">
       <h1 className="title">Cryptocurrencies</h1>
@@ -45,7 +51,7 @@ const Cryptocurrency = () => {
       </div>
       <div className="coin-grid">
         {filteredCryptocurrencies.map((currency) => (
-          <Link key={currency.id} to={`/coins/${currency.id}`} className="coin-card">
+          <div key={currency.id} className="coin-card" onClick={() => handleCoinClick(currency.id)}>
             <div className="coin-card-image">
               <img src={currency.image} alt={`${currency.name} logo`} />
             </div>
@@ -57,7 +63,7 @@ const Cryptocurrency = () => {
                 <p className="coin-description">{currency.description.en}</p>
               )}
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
