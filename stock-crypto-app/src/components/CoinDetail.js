@@ -21,7 +21,7 @@ const CoinDetail = () => {
   
     try {
       const response = await axiosInstance.post(
-        `http://localhost:5001/api/users/${userId}/favorites/add`,
+        `https://stark-chamber-73716.herokuapp.com//api/users/${userId}/favorites/add`,
         {
           coinId: coin.id,
           coinName: coin.name,

@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkLoggedInStatus = async () => {
       try {
-        const response = await axiosInstance.get('http://localhost:5001/api/users/check-logged-in', { withCredentials: true });
+        const response = await axiosInstance.get('https://stark-chamber-73716.herokuapp.com//api/users/check-logged-in', { withCredentials: true });
         setCurrentUser(response.data.currentUser);
       } catch (error) {
         console.error('Error fetching user:', error.message);
