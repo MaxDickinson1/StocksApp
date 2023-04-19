@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import { useHistory } from 'react-router-dom';
 import './Cryptocurrency.css';
+import jwt_decode from 'jwt-decode';
+
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -19,13 +21,16 @@ const Auth = () => {
 
       if (isLogin) {
         const token = response.data.token;
-        const userId = response.data.userId;
-
+        const decodedToken = jwt_decode(token); 
+        const userId = decodedToken.id;
+      
         // Save token and user ID to local storage
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
-
+      
         history.push('/');
+      }
+      
       } else {
         alert('User registered');
       }
