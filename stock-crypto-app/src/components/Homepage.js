@@ -18,7 +18,7 @@ const Favorites = () => {
 
       try {
         const response = await axiosInstance.get(
-          `https://stark-chamber-73716.herokuapp.com//api/users/${userId}/favorites`
+          `https://stark-chamber-73716.herokuapp.com/api/users/${userId}/favorites`
         );
         setFavorites(response.data);
       } catch (error) {
@@ -38,7 +38,7 @@ const Favorites = () => {
     const userId = localStorage.getItem("userId");
     try {
       await axiosInstance.delete(
-        `https://stark-chamber-73716.herokuapp.com//api/users/${userId}/favorites/${favoriteId}`
+        `https://stark-chamber-73716.herokuapp.com/api/users/${userId}/favorites/${favoriteId}`
       );
       setFavorites(favorites.filter((favorite) => favorite._id !== favoriteId));
     } catch (error) {
