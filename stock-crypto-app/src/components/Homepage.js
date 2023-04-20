@@ -68,17 +68,16 @@ const Favorites = () => {
           <p>No favorites yet.</p>
         ) : (
           filteredFavorites.map((favorite) => (
-            <div key={favorite._id} className="coin-card">
+            <div
+              key={favorite._id}
+              className="coin-card"
+              onClick={() => handleCoinClick(favorite.id)}
+            >
               <div className="coin-card-image">
                 <img src={favorite.image} alt={`${favorite.name} logo`} />
               </div>
               <div className="coin-card-details">
-                <h2
-                  className="coin-name"
-                  onClick={() => handleCoinClick(favorite.id)}
-                >
-                  {favorite.name}
-                </h2>
+                <h2 className="coin-name">{favorite.name}</h2>
                 <p className="coin-symbol">
                   {favorite.symbol ? favorite.symbol.toUpperCase() : "N/A"}
                 </p>
@@ -87,13 +86,13 @@ const Favorites = () => {
                     ? `$${favorite.current_price.toLocaleString()}`
                     : "N/A"}
                 </p>
-                {favorite.description && favorite.description.en && (
-                  <p className="coin-description">{favorite.description.en}</p>
-                )}
               </div>
               <button
                 className="delete-button"
-                onClick={() => handleDelete(favorite._id)}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering handleCoinClick
+                  handleDelete(favorite._id);
+                }}
               >
                 Delete
               </button>
