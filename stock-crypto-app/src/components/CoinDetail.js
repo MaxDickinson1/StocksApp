@@ -19,6 +19,9 @@ const CoinDetail = () => {
       return;
     }
   
+    // Check if coin.image is a string (image URL)
+    const coinImage = typeof coin.image === 'string' ? coin.image : '';
+  
     try {
       const response = await axiosInstance.post(
         `https://stark-chamber-73716.herokuapp.com/api/users/${userId}/favorites/add`,
@@ -26,7 +29,7 @@ const CoinDetail = () => {
           coinId: coin.id,
           coinName: coin.name,
           coinSymbol: coin.symbol,
-          coinImage: coin.image,
+          coinImage: coinImage, 
           coinCurrentPrice: coin.market_data && coin.market_data.current_price.usd,
           coinDescriptionEn: coin.description && coin.description.en,
         }
