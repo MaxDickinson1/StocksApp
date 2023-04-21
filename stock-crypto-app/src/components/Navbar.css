@@ -43,3 +43,18 @@
     color: #a0a0a0;
   }
   
+  .nav-username {
+    color: #ffffff;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-signout-btn {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
