@@ -324,3 +324,72 @@
     cursor: pointer;
   }
   
+
+
+
+
+
+  .coin-delete-button {
+    background-color: #ff4b5c;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    outline: none;
+    padding: 8px 12px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+  }
+  
+  .coin-delete-button:hover {
+    background-color: #e63946;
+  }
+  
+
+
+
+
+
+
+  .coin-search-bar {
+    background-color: #f5f5f5;
+    border: 1px solid #dfe1e5;
+    border-radius: 4px;
+    color: #5f6368;
+    font-size: 16px;
+    margin-bottom: 20px;
+    outline: none;
+    padding: 10px 15px;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .coin-search-bar:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+  }
+  
+
+  .coin-search-price {
+    background-color: #f5f5f5;
+    border: 1px solid #dfe1e5;
+    border-radius: 4px;
+    color: #5f6368;
+    font-size: 16px;
+    margin-left: 10px;
+    outline: none;
+    padding: 10px 15px;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    width: 100%;
+    max-width: 150px;
+  }
+  
+  .coin-search-price:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+  }
+  

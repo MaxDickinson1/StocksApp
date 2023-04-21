@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Cryptocurrency.css";
 import axiosInstance from "../axiosInstance";
+import axios from "axios";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -20,7 +21,23 @@ const Favorites = () => {
         const response = await axiosInstance.get(
           `https://stark-chamber-73716.herokuapp.com/api/users/${userId}/favorites`
         );
-        setFavorites(response.data);
+        const favoritesWithImages = await Promise.all(
+          response.data.map(async (favorite) => {
+            try {
+              const coinGeckoResponse = await axios.get(
+                `https://api.coingecko.com/api/v3/coins/${favorite.id}`
+              );
+              return {
+                ...favorite,
+                image: coinGeckoResponse.data.image.large,
+              };
+            } catch (error) {
+              console.error("Error fetching image from CoinGecko:", error.message);
+              return favorite;
+            }
+          })
+        );
+        setFavorites(favoritesWithImages);
       } catch (error) {
         console.error("Error fetching favorites:", error.message);
         alert("Error fetching favorites. Please try again.");
@@ -57,12 +74,13 @@ const Favorites = () => {
     <div className="coin-list">
       <h1 className="title">Your Favorites</h1>
       <input
-        type="text"
-        className="search-bar"
-        placeholder="Search favorites"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+  type="text"
+  className="search-bar coin-search-bar"
+  placeholder="Search favorites"
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
+
       <div className="coin-grid">
         {filteredFavorites.length === 0 ? (
           <p>No favorites yet.</p>
@@ -88,20 +106,22 @@ const Favorites = () => {
                 </p>
               </div>
               <button
-                className="delete-button"
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent triggering handleCoinClick
-                  handleDelete(favorite._id);
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          ))
-        )}
+  className="delete-button coin-delete-button"
+  onClick={(e) => {
+    e.stopPropagation(); // Prevent triggering handleCoinClick
+    handleDelete(favorite._id);
+  }}
+>
+  Delete
+</button>
+
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
-  );
+);
 };
 
-export default Favorites;
+export default Favorites;      
+               
