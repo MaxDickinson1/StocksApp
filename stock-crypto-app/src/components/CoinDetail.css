@@ -37,6 +37,7 @@
   .coin-detail-description {
     max-width: 800px;
     text-align: left;
+    margin-bottom: 2rem;
   }
   
   .coin-detail-description h2 {
@@ -48,4 +49,33 @@
     font-size: 1rem;
     white-space: pre-wrap;
   }
+  
+  @media only screen and (max-width: 768px) {
+    .coin-detail {
+      padding: 1rem;
+    }
+    
+    .coin-detail-description {
+      max-width: 600px;
+    }
+  }
+  
+  @media only screen and (max-width: 576px) {
+    .coin-detail {
+      padding: 0.5rem;
+    }
+    
+    .coin-detail-description {
+      max-width: 400px;
+    }
+    
+    .coin-detail-description h2 {
+      font-size: 1.2rem;
+    }
+    
+    .coin-detail-description p {
+      font-size: 0.9rem;
+    }
+  }
+  
   

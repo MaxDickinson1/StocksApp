@@ -52,3 +52,15 @@
     text-decoration: underline;
   }
   
+  @media only screen and (max-width: 768px) {
+    .auth-form {
+      max-width: 400px;
+    }
+  }
+  
+  @media only screen and (max-width: 576px) {
+    .auth-form {
+      max-width: 300px;
+    }
+  }
+  

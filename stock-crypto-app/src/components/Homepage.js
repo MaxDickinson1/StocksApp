@@ -115,7 +115,7 @@ const Favorites = () => {
                   handleDelete(favorite._id);
                 }}
               >
-                Delete
+                Remove
               </button>
             </div>
           ))

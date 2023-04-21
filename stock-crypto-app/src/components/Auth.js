@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import { useHistory } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'; 
+import { useAuth } from '../contexts/AuthContext';
 import './Auth.css';
 
 const Auth = () => {
@@ -9,6 +10,7 @@ const Auth = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
+  const { setCurrentUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +28,9 @@ const Auth = () => {
         // Save token and user ID to local storage
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
+
+        // Update currentUser in AuthContext
+        setCurrentUser({ token });
 
         history.push('/');
       } else {

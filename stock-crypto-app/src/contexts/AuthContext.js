@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axiosInstance from '../axiosInstance';
+import jwt_decode from 'jwt-decode';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -11,15 +11,12 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const checkLoggedInStatus = async () => {
-      try {
-        const response = await axiosInstance.get('https://stark-chamber-73716.herokuapp.com/api/users/check-logged-in', { withCredentials: true });
-        setCurrentUser(response.data.currentUser);
-      } catch (error) {
-        console.error('Error fetching user:', error.message);
-      }
-    };
-    checkLoggedInStatus();
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      const decodedToken = jwt_decode(token);
+      setCurrentUser({ token, username: decodedToken.username });
+    }
   }, []);
 
   const value = {
