@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import { useHistory } from 'react-router-dom';
-import jwt_decode from 'jwt-decode'; // Import jwt_decode
-import './Cryptocurrency.css';
+import jwt_decode from 'jwt-decode'; 
+import './Auth.css';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);

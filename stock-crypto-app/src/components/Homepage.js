@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import "./Cryptocurrency.css";
+import "./HomePage.css";
 import axiosInstance from "../axiosInstance";
 import axios from "axios";
 
@@ -32,7 +32,10 @@ const Favorites = () => {
                 image: coinGeckoResponse.data.image.large,
               };
             } catch (error) {
-              console.error("Error fetching image from CoinGecko:", error.message);
+              console.error(
+                "Error fetching image from CoinGecko:",
+                error.message
+              );
               return favorite;
             }
           })
@@ -71,57 +74,55 @@ const Favorites = () => {
   );
 
   return (
-    <div className="coin-list">
+    <div className="favorites-container">
       <h1 className="title">Your Favorites</h1>
       <input
-  type="text"
-  className="search-bar coin-search-bar"
-  placeholder="Search favorites"
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-/>
+        type="text"
+        className="search-bar coin-search-bar"
+        placeholder="Search favorites"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
-      <div className="coin-grid">
+      <div className="favorites-grid">
         {filteredFavorites.length === 0 ? (
           <p>No favorites yet.</p>
         ) : (
           filteredFavorites.map((favorite) => (
             <div
               key={favorite._id}
-              className="coin-card"
+              className="favorite-card"
               onClick={() => handleCoinClick(favorite.id)}
             >
-              <div className="coin-card-image">
+              <div className="favorite-card-image">
                 <img src={favorite.image} alt={`${favorite.name} logo`} />
               </div>
-              <div className="coin-card-details">
-                <h2 className="coin-name">{favorite.name}</h2>
-                <p className="coin-symbol">
+              <div className="favorite-card-details">
+                <h2 className="favorite-name">{favorite.name}</h2>
+                <p className="favorite-symbol">
                   {favorite.symbol ? favorite.symbol.toUpperCase() : "N/A"}
                 </p>
-                <p className="coin-price">
+                <p className="favorite-price">
                   {favorite.current_price
                     ? `$${favorite.current_price.toLocaleString()}`
                     : "N/A"}
                 </p>
               </div>
               <button
-  className="delete-button coin-delete-button"
-  onClick={(e) => {
-    e.stopPropagation(); // Prevent triggering handleCoinClick
-    handleDelete(favorite._id);
-  }}
->
-  Delete
-</button>
-
-              </div>
-            ))
-          )}
-        </div>
+                className="delete-button"
+                onClick={(e) => {
+                  e.stopPropagation(); 
+                  handleDelete(favorite._id);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          ))
+        )}
       </div>
-);
+    </div>
+  );
 };
 
-export default Favorites;      
-               
+export default Favorites;

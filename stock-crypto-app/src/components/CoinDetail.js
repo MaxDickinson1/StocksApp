@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 import coinGeckoInstance from '../coinGeckoInstance';
-import './Cryptocurrency.css';
+import './CoinDetail.css';
 import axiosInstance from '../axiosInstance';
 
 const CoinDetail = () => {
@@ -19,7 +19,7 @@ const CoinDetail = () => {
       return;
     }
   
-    // Check if coin.image is a string (image URL)
+    
     const coinImage = typeof coin.image === 'string' ? coin.image : '';
   
     try {
